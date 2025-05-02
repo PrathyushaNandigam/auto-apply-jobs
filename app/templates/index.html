@@ -2,130 +2,155 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Auto Job Apply System</title>
+    <title>Auto Job Apply</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
         }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            min-height: 100vh;
+            padding: 40px;
+        }
+
         .container {
             max-width: 900px;
-            margin: 0 auto;
-            background-color: white;
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #333;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
         }
+
         h1 {
             text-align: center;
             margin-bottom: 30px;
+            color: #1d3557;
         }
+
         form {
             margin-bottom: 30px;
         }
+
         label {
-            display: block;
             font-weight: bold;
+            display: block;
             margin-top: 10px;
         }
-        input[type="text"],
-        input[type="file"] {
+
+        input[type="text"], input[type="file"] {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
             margin-top: 5px;
         }
+
         button {
-            margin-top: 15px;
-            padding: 10px 15px;
-            background-color: #0077cc;
+            background-color: #1d3557;
             color: white;
+            padding: 10px 20px;
             border: none;
+            margin-top: 15px;
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
-            background-color: #005fa3;
+            background-color: #457b9d;
         }
-        .message {
-            color: green;
+
+        .top-right {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 280px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
-        .section {
-            margin-bottom: 40px;
-        }
+
         .uploaded-files ul {
             list-style: none;
             padding-left: 0;
         }
+
         .uploaded-files li {
             padding: 5px 0;
         }
-        .top-right {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 250px;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #ccc;
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .message {
+            color: green;
         }
     </style>
 </head>
 <body>
-    <div class="top-right">
-        <h3>Job Filters</h3>
-        <form action="/save_filters" method="POST">
-            <label>Job Title</label>
-            <input type="text" name="title" required>
+    <div class="overlay">
+        <div class="top-right">
+            <h3>Job Filters</h3>
+            <form action="/save_filters" method="POST">
+                <label>Job Title</label>
+                <input type="text" name="title" required>
 
-            <label>Location</label>
-            <input type="text" name="location" required>
+                <label>Location</label>
+                <input type="text" name="location" required>
 
-            <label>Keywords</label>
-            <input type="text" name="keywords" placeholder="comma-separated">
+                <label>Keywords</label>
+                <input type="text" name="keywords" placeholder="comma-separated">
 
-            <button type="submit">Save Filters</button>
-        </form>
-        {% if filter_message %}
-            <p class="message">{{ filter_message }}</p>
-        {% endif %}
-    </div>
-
-    <div class="container">
-        <h1>Welcome to Auto Job Apply</h1>
-
-        <div class="section">
-            <h2>Upload Resume & Cover Letter</h2>
-            <form action="/upload" method="POST" enctype="multipart/form-data">
-                <label>Select Resume</label>
-                <input type="file" name="resume" required>
-
-                <label>Select Cover Letter</label>
-                <input type="file" name="cover_letter">
-
-                <button type="submit">Upload Files</button>
+                <button type="submit">Save Filters</button>
             </form>
-
-            {% if message %}
-                <p class="message">{{ message }}</p>
+            {% if filter_message %}
+                <p class="message">{{ filter_message }}</p>
             {% endif %}
         </div>
 
-        <div class="section uploaded-files">
-            <h2>Uploaded Files</h2>
-            <ul>
-                {% for file in files %}
-                    <li>{{ file }}</li>
-                {% else %}
-                    <li>No files uploaded yet.</li>
-                {% endfor %}
-            </ul>
-        </div>
+        <div class="container">
+            <h1>Auto Job Apply System</h1>
 
-        <div class="section">
-            <a href="/jobs"><button>View Matching Jobs</button></a>
+            <div class="section">
+                <h2>Upload Resume & Cover Letter</h2>
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                    <label>Select Resume</label>
+                    <input type="file" name="resume" required>
+
+                    <label>Select Cover Letter</label>
+                    <input type="file" name="cover_letter">
+
+                    <button type="submit">Upload Files</button>
+                </form>
+
+                {% if message %}
+                    <p class="message">{{ message }}</p>
+                {% endif %}
+            </div>
+
+            <div class="section uploaded-files">
+                <h2>Uploaded Files</h2>
+                <ul>
+                    {% for file in files %}
+                        <li>{{ file }}</li>
+                    {% else %}
+                        <li>No files uploaded yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section">
+                <a href="/jobs"><button>View Matching Jobs</button></a>
+            </div>
         </div>
     </div>
 </body>
