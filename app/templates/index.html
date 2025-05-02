@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Auto Apply Job System</title>
+    <meta charset="UTF-8">
+    <title>Auto Job Apply</title>
 </head>
 <body>
     <h1>Welcome to the Auto Apply Job System</h1>
+
+    <h2>Upload Your Resume / Cover Letter</h2>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <label for="resume">Select Resume:</label>
+        <input type="file" name="resume" required><br><br>
+
+        <label for="cover_letter">Select Cover Letter:</label>
+        <input type="file" name="cover_letter"><br><br>
+
+        <button type="submit">Upload Files</button>
+    </form>
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% endif %}
 </body>
 </html>
