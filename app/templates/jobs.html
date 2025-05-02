@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Results</title>
+</head>
+<body>
+    <h1>Filtered Job Listings</h1>
+    <a href="/">⬅ Back to Home</a>
+    <ul>
+        {% for job in jobs %}
+            <li>
+                <strong>{{ job.title }}</strong> at {{ job.company }} <br>
+                Location: {{ job.location }} <br>
+                <a href="{{ job.url }}" target="_blank">View & Apply</a>
+                <hr>
+            </li>
+        {% else %}
+            <li>No matching jobs found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

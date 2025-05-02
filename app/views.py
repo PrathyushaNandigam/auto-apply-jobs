@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request,redirect, url_for, flash
+from .scraper import scrape_jobs
 import os
 
 main = Blueprint('main', __name__)
@@ -28,8 +29,12 @@ def upload_files():
     return redirect(url_for('main.index'))
 import json
 
-@main.route('/save_filters', methods=['POST'])
+@main.route('/save_filters', methods=['GET', 'POST'])
 def save_filters():
+    if request.method == 'GET':
+        return redirect(url_for('main.index'))  # prevents 405 on direct visit
+
+    # Handle POST submission from the form
     title = request.form.get('title')
     location = request.form.get('location')
     keywords = request.form.get('keywords')
@@ -40,10 +45,15 @@ def save_filters():
         "keywords": [kw.strip() for kw in keywords.split(',')] if keywords else []
     }
 
-    # Save to a file (filters.json)
     with open('filters.json', 'w') as f:
         json.dump(filters, f, indent=4)
 
     files = os.listdir(UPLOAD_FOLDER)
     return render_template('index.html', files=files, filter_message="Filters saved successfully.")
+
+@main.route('/jobs')
+def show_jobs():
+    jobs = scrape_jobs()
+    files = os.listdir(UPLOAD_FOLDER)
+    return render_template('jobs.html', jobs=jobs, files=files)
 
