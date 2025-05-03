@@ -34,17 +34,34 @@
             color: #1d3557;
         }
 
-        form {
-            margin-bottom: 30px;
-        }
-
         label {
             font-weight: bold;
             display: block;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
-        input[type="text"], input[type="file"] {
+        .custom-file-upload {
+            display: inline-block;
+            padding: 8px 14px;
+            cursor: pointer;
+            background-color: #1d3557;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .custom-file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-name {
+            margin-left: 10px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        input[type="text"] {
             width: 100%;
             padding: 10px;
             border-radius: 5px;
@@ -57,7 +74,7 @@
             color: white;
             padding: 10px 20px;
             border: none;
-            margin-top: 15px;
+            margin-top: 20px;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -123,11 +140,23 @@
             <div class="section">
                 <h2>Upload Resume & Cover Letter</h2>
                 <form action="/upload" method="POST" enctype="multipart/form-data">
-                    <label>Select Resume</label>
-                    <input type="file" name="resume" required>
+                    <div>
+                        <label>Select Resume</label>
+                        <label class="custom-file-upload">
+                            <input type="file" name="resume" id="resumeInput" required>
+                            Choose Resume
+                        </label>
+                        <span id="resumeName" class="file-name">No file selected</span>
+                    </div>
 
-                    <label>Select Cover Letter</label>
-                    <input type="file" name="cover_letter">
+                    <div>
+                        <label>Select Cover Letter</label>
+                        <label class="custom-file-upload">
+                            <input type="file" name="cover_letter" id="coverInput">
+                            Choose Cover Letter
+                        </label>
+                        <span id="coverName" class="file-name">No file selected</span>
+                    </div>
 
                     <button type="submit">Upload Files</button>
                 </form>
@@ -153,5 +182,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('resumeInput').addEventListener('change', function() {
+            document.getElementById('resumeName').textContent = this.files[0]?.name || 'No file selected';
+        });
+
+        document.getElementById('coverInput').addEventListener('change', function() {
+            document.getElementById('coverName').textContent = this.files[0]?.name || 'No file selected';
+        });
+    </script>
 </body>
 </html>
